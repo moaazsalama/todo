@@ -6,10 +6,9 @@ class TodoField {
 }
 
 class Todo {
-  static int counter=0;
   DateTime createdTime;
   String title;
-  String? id;
+  int id;
   String description;
   bool isDone;
 
@@ -17,24 +16,22 @@ class Todo {
     required this.createdTime,
     required this.title,
     this.description = '',
-     
+     required this.id,
     this.isDone = false,
-  }){
-    this.id=(++counter).toString();
-  }
+  });
   
 
   Todo copyWith({
     DateTime? createdTime,
     String? title,
-    String? id,
+    int? id,
     String? description,
     bool? isDone,
   }) {
     return Todo(
       createdTime: createdTime ?? this.createdTime,
       title: title ?? this.title,
-    
+      id: id??this.id,
       description: description ?? this.description,
       isDone: isDone ?? this.isDone,
     );

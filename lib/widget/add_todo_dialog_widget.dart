@@ -50,7 +50,7 @@ class _AddTodoDialogWidgetState extends State<AddTodoDialogWidget> {
                   Provider.of<TodosProvider>(context,listen: false).addToList(title, description);
                 }
                 else{
-                  Provider.of<TodosProvider>(context,listen: false).edit(widget.todo!.id!, widget.todo!.copyWith(
+                  Provider.of<TodosProvider>(context,listen: false).edit(widget.todo!.id, widget.todo!.copyWith(
                     title: title,description:description
                   ));
                

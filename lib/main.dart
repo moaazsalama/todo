@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/page/home_page.dart';
+import 'package:todo/provider/database_controller.dart';
 import 'package:todo/provider/todos.dart';
+import 'package:sqflite/sqflite.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+ await DatabaseController.init();
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   static final String title = 'Todo App';
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => TodosProvider(),
+        create: (context) => TodosProvider()..getData(),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: title,
