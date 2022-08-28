@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/model/todo.dart';
+import 'package:todo/provider/todos.dart';
+
+import 'add_todo_dialog_widget.dart';
 
 class TodoWidget extends StatelessWidget {
   final Todo todo;
@@ -12,7 +15,9 @@ class TodoWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ClipRRect(
+  Widget build(BuildContext context) {
+
+    return ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: Slidable(
           startActionPane: ActionPane(
@@ -21,13 +26,16 @@ class TodoWidget extends StatelessWidget {
               SlidableAction(
                 
                 backgroundColor: Colors.green,
-                onPressed: (context) {},
+                onPressed: (context) {
+                  showDialog(context: context, builder:(context)=> AddTodoDialogWidget(todo: todo,));
+                },
                 label: 'Edit',
                 icon: Icons.edit,
               ) ,SlidableAction(
                 
                 backgroundColor: Colors.red,
-                onPressed: (context) {},
+                onPressed: (context) {
+                  Provider.of<TodosProvider>(context,listen: false).delete(todo.id!);},
                 label: 'Delete',
                 icon: Icons.delete,
               )
@@ -37,6 +45,7 @@ class TodoWidget extends StatelessWidget {
           child: buildTodo(context),
         ),
       );
+  }
 
   Widget buildTodo(BuildContext context) => Container(
         color: Colors.white,

@@ -27,6 +27,25 @@ class TodosProvider extends ChangeNotifier {
       title: 'Plan Jacobs birthday party 🎉🥳',
     ),
   ];
+  void addToList(String title, String description) {
+    _todos.add(Todo(
+      createdTime: DateTime.now(),
+      title: title,
+      description: description,
+    ));
+    notifyListeners();
+  }
+
+  void edit(String id, Todo todo) {
+    var index = _todos.indexWhere((element) => element.id == id);
+    _todos[index] = todo;
+    notifyListeners();
+  }
+
+  void delete(String id) {
+    _todos.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
 
   List<Todo> get todos => _todos.where((todo) => todo.isDone == false).toList();
 }
