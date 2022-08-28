@@ -35,13 +35,13 @@ class TodoWidget extends StatelessWidget {
                 
                 backgroundColor: Colors.red,
                 onPressed: (context) {
-                  Provider.of<TodosProvider>(context,listen: false).delete(todo.id!);},
+                  Provider.of<TodosProvider>(context,listen: false).delete(todo.id);},
                 label: 'Delete',
                 icon: Icons.delete,
               )
             ],
           ),
-          key: Key(todo.id??""),
+          key: Key(todo.id.toString()),
           child: buildTodo(context),
         ),
       );
