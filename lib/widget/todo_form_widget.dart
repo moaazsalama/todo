@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../model/todo.dart';
+
 class TodoFormWidget extends StatelessWidget {
+  final Todo? todo; 
   final String title;
   final String description;
   final ValueChanged<String> onChangedTitle;
@@ -13,7 +16,7 @@ class TodoFormWidget extends StatelessWidget {
     this.description = '',
     required this.onChangedTitle,
     required this.onChangedDescription,
-    required this.onSavedTodo,
+    required this.onSavedTodo, this.todo,
   }) : super(key: key);
 
   @override
