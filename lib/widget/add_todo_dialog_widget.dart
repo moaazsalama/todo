@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/model/todo.dart';
 import 'package:todo/provider/todos.dart';
+import 'package:todo/viewmodel/cubit/todo_cubit.dart';
 import 'package:todo/widget/todo_form_widget.dart';
 
 class AddTodoDialogWidget extends StatefulWidget {
@@ -18,11 +20,11 @@ class _AddTodoDialogWidgetState extends State<AddTodoDialogWidget> {
   String description = '';
   @override
   void initState() {
-    if(widget.todo!=null){
+    if (widget.todo != null) {
       print(widget.todo!.title);
       print("object");
-      title=widget.todo!.title;
-      description=widget.todo!.description;
+      title = widget.todo!.title;
+      description = widget.todo!.description;
     }
     super.initState();
   }
@@ -41,19 +43,25 @@ class _AddTodoDialogWidgetState extends State<AddTodoDialogWidget> {
               ),
             ),
             const SizedBox(height: 8),
-            TodoFormWidget(title: title,description: description,todo: widget.todo,
+            TodoFormWidget(
+              title: title,
+              description: description,
+              todo: widget.todo,
               onChangedTitle: (title) => setState(() => this.title = title),
               onChangedDescription: (description) =>
                   setState(() => this.description = description),
               onSavedTodo: () {
-                if(widget.todo==null) {
-                  Provider.of<TodosProvider>(context,listen: false).addToList(title, description);
-                }
-                else{
-                  Provider.of<TodosProvider>(context,listen: false).edit(widget.todo!.id, widget.todo!.copyWith(
-                    title: title,description:description
-                  ));
-               
+                if (widget.todo == null) {
+                  BlocProvider.of<TodoCubit>(
+                    context,
+                  ).addTodo(Todo(
+                      createdTime: DateTime.now(),
+                      title: title,
+                      id: 0,
+                      description: description));
+                } else {
+                  BlocProvider.of<TodoCubit>(context).edit(widget.todo!
+                      .copyWith(title: title, description: description));
                 }
                 Navigator.of(context).pop();
               },

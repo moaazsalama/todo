@@ -14,8 +14,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final tabs = [
-      TodoListWidget(),
-      Container(),
+      TodoListWidget(isDone: false),
+      TodoListWidget(isDone: true),
     ];
 
     return Scaffold(
@@ -47,11 +47,13 @@ class _HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.circular(20),
         ),
         backgroundColor: Colors.black,
-        onPressed: () => showDialog(
+        onPressed: () {
+          showDialog(
           context: context,
           builder: (context) => AddTodoDialogWidget(),
           barrierDismissible: false,
-        ),
+        );
+        },
         child: Icon(Icons.add),
       ),
     );

@@ -31,7 +31,7 @@ class TodosProvider extends ChangeNotifier {
 
   getData() async {
     var databaseController = DatabaseController();
-   var list = await databaseController.getTodos();
+   var list = await databaseController.getTodos(true);
    list.sort((todo1,todo2){
     if(todo1.createdTime.isBefore(todo2.createdTime)){
       return -1;

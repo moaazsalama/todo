@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/model/todo.dart';
 import 'package:todo/provider/todos.dart';
+import 'package:todo/viewmodel/cubit/todo_cubit.dart';
 
 import 'add_todo_dialog_widget.dart';
 
@@ -35,7 +37,7 @@ class TodoWidget extends StatelessWidget {
                 
                 backgroundColor: Colors.red,
                 onPressed: (context) {
-                  Provider.of<TodosProvider>(context,listen: false).delete(todo.id);},
+                 BlocProvider.of<TodoCubit>(context).delete(todo.id);},
                 label: 'Delete',
                 icon: Icons.delete,
               )
@@ -47,7 +49,9 @@ class TodoWidget extends StatelessWidget {
       );
   }
 
-  Widget buildTodo(BuildContext context) => Container(
+  Widget buildTodo(BuildContext context) {
+    print(todo.isDone);
+    return Container(
         color: Colors.white,
         padding: EdgeInsets.all(20),
         child: Row(
@@ -56,7 +60,11 @@ class TodoWidget extends StatelessWidget {
               activeColor: Theme.of(context).primaryColor,
               checkColor: Colors.white,
               value: todo.isDone,
-              onChanged: (_) {},
+              onChanged: (val) {
+                if(val!=null) {
+                  BlocProvider.of<TodoCubit>(context).completeTodo(todo.id, val);
+                }
+              },
             ),
             const SizedBox(width: 20),
             Expanded(
@@ -85,4 +93,5 @@ class TodoWidget extends StatelessWidget {
           ],
         ),
       );
+  }
 }

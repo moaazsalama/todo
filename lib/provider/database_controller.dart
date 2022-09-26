@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../model/todo.dart';
-
+//CRUD
+//Create Read Update Delete
 class DatabaseController {
   static Database? _db;
   static Future<void> init() async {
@@ -12,16 +13,20 @@ class DatabaseController {
           'CREATE TABLE todos (id INTEGER PRIMARY KEY, title TEXT,description TEXT, time DATETIME, isDone TEXT)');
     });
   }
+//id title description time isDone
 
-  Future<List<Todo>> getTodos() async {
-    var query = await _db!.query('todos');
+
+  Future<List<Todo>> getTodos(bool isDone) async {
+    var query = await _db!.query('todos', where: 'isDone=?', whereArgs: [isDone?1:0]);
     var list = query
-        .map((row) => Todo(
+        .map((row) {
+           return Todo(
             id: row['id'] as int,
             createdTime: DateTime.parse(row['time'].toString()),
             title: row['title'] as String,
             description: row['description'] as String,
-            isDone: (row['isDone'].toString()) == "true" ? true : false))
+            isDone: int.parse(row['isDone'].toString()) == 1 ? true : false);
+        })
         .toList();
     return list;
   }
